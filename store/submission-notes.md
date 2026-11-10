@@ -2,14 +2,13 @@
 
 本目录是提交包，`extension/` 是脱敏后的扩展副本，`ai-memo-siyuan-0.1.0.zip` 是上传用压缩包（根级即 manifest.json）。
 
-## 0. 发布前必做（只有两件）
+## 0. 发布前准备（已完成）
 
-1. **填联系方式**：`store/privacy-policy.html` 里有两处黄色高亮的占位（中/英各一），换成你的邮箱或 GitHub Issues 链接。
-2. **托管隐私政策**：把 `privacy-policy.html` 传到任何公开可访问的 HTTPS 地址，例如：
-   - GitHub 仓库 → Settings → Pages（把文件改名 `index.html` 放仓库根目录或 `/docs`）；
-   - 或 GitHub Gist → 用 htmlpreview.github.io 之类的渲染链接；
-   - 或任何你自己的静态托管。
-   得到的 URL 填到 Partner Center 隐私页的「隐私政策 URL」。
+- **仓库**：https://github.com/sagezhj/ai-memo-siyuan （公开，源码 + 提交包 + 隐私政策均已推送）
+- **联系方式**：隐私政策已设为 GitHub Issues（https://github.com/sagezhj/ai-memo-siyuan/issues）+ 邮箱。
+- **隐私政策线上 URL**（填到 Partner Center 隐私页）：**https://sagezhj.github.io/ai-memo-siyuan/docs/**
+  - 由 GitHub Pages 托管（main 分支）。当前 Pages 源为根目录，README 在站点根路径、隐私政策在 `/docs/`，上面这个地址已验证可访问（HTTP 200，标题与联系方式正确）。
+  - 可选美化：若想让站点根路径直接是隐私政策，到仓库 Settings → Pages 把目录从 `/(root)` 改为 `/docs`，URL 即变为 https://sagezhj.github.io/ai-memo-siyuan/ 。
 
 ## 1. 注册与提交（Partner Center 八步）
 
@@ -68,7 +67,7 @@
 | `store-logo-300.png` | 商店详情 logo（1:1，300×300） | 已备好 |
 | `store-description-zh.txt` | 中文描述（≥250 字符） | 已备好 |
 | `store-description-en.txt` | 英文描述（≥250 字符） | 已备好 |
-| `privacy-policy.html` | 隐私政策（双语，托管后填 URL） | 待填联系方式 |
+| `privacy-policy.html` | 隐私政策（双语，已托管，URL 见 §0） | 已就绪 |
 | 截图 1280×800（可选） | 商店详情展示 | 未做；Hidden 自用可省略 |
 
 ## 5. 以后更新版本
