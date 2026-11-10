@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>语法自检（逐文件真实解析）</title>
+  <style>
+    body { font: 14px/1.7 "Segoe UI", "Microsoft YaHei", sans-serif; margin: 24px; background: #f7f8fa; color: #1f2329; }
+    h1 { font-size: 18px; margin: 0 0 6px; }
+    .sum { margin-bottom: 14px; font-weight: 600; }
+    .ok { color: #16a34a; }
+    .bad { color: #dc2626; }
+    table { border-collapse: collapse; width: 100%; background: #fff; }
+    th, td { border-bottom: 1px solid #e5e7eb; padding: 6px 10px; text-align: left; font-size: 13px; vertical-align: top; }
+    td.msg { color: #b91c1c; font-family: Consolas, monospace; }
+    td.note { color: #6b7280; font-family: Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <h1>语法自检：把每个源文件当脚本真实解析一遍</h1>
+  <div class="sum" id="sum">运行中…</div>
+  <table>
+    <thead><tr><th style="width:340px">文件</th><th>结果</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <script>
+    /*
+      本机没有 Node，跑不了 node --check。这个页面用「浏览器真实编译脚本」代替：
+      依次给每个文件挂 <script src>，用捕获阶段的 error 监听区分两类失败——
+        · 事件 target 是 SCRIPT 元素 => 编译期就失败（语法错误）或文件缺失 => 判失败；
+        · 事件 target 是 window     => 已编译通过、执行期才报错 => 语法 OK，只作提示。
+      file:// 环境没有扩展运行时，所以先把 chrome 换成不会抛异常的 Proxy。
+    */
+    function anyFn() { return anyFn; }
+    globalThis.__anyFn = new Proxy(anyFn, {
+      get: function (t, k) { return k === 'then' ? undefined : globalThis.__anyFn; },
+      apply: function () { return globalThis.__anyFn; },
+      construct: function () { return {}; }
+    });
+    globalThis.chrome = new Proxy({}, {
+      get: function () { return globalThis.__anyFn; },
+      set: function () { return true; }
+    });
+    globalThis.importScripts = function () { return globalThis.__anyFn; };
+
+    var FILES = [
+      '../shared/constants.js',
+      '../shared/util.js',
+      '../shared/hash.js',
+      '../shared/dom.js',
+      '../shared/markdown.js',
+      '../shared/rpc.js',
+      '../background/siyuan.js',
+      '../background/store.js',
+      '../background/sync.js',
+      '../background/index.js',
+      '../content/adapters/registry.js',
+      '../content/adapters/deepseek.js',
+      '../content/adapters/qwen.js',
+      '../content/adapters/yuanbao.js',
+      '../content/adapters/generic.js',
+      '../content/diagnose.js',
+      '../content/bubble.js',
+      '../content/observer.js',
+      '../content/main.js',
+      'settings.js'
+    ];
+
+    var results = [];
+    var rows = document.getElementById('rows');
+    var current = null;
+
+    window.addEventListener('error', function (e) {
+      if (!current) {
+        return;
+      }
+      if (e.target && e.target.tagName === 'SCRIPT') {
+        // 编译期失败：没有 message 时通常是文件读不到
+        current.bad = true;
+        current.message = e.message || '解析失败或文件缺失';
+        current.line = e.lineno || '';
+      } else {
+        // 运行期失败：语法已经通过
+        current.notes.push(String(e.message || e.error || 'runtime error'));
+      }
+    }, true);
+
+    function finish() {
+      var bad = results.filter(function (r) { return r.bad; });
+      var sum = document.getElementById('sum');
+      sum.innerHTML = bad.length === 0
+        ? '<span class="ok">全部通过：' + results.length + ' 个文件均可被浏览器编译</span>'
+        : '<span class="bad">编译通过 ' + (results.length - bad.length) + ' 个，失败 ' + bad.length + ' 个</span>';
+      rows.innerHTML = '';
+      results.forEach(function (r) {
+        var tr = document.createElement('tr');
+        var a = document.createElement('td');
+        a.textContent = r.file;
+        var b = document.createElement('td');
+        if (r.bad) {
+          b.className = 'bad msg';
+          b.textContent = 'FAIL ' + r.message + (r.line ? ' @ 行 ' + r.line : '');
+        } else if (r.notes.length) {
+          b.className = 'note';
+          b.textContent = '语法 OK；file:// 下运行提示：' + r.notes.join(' / ');
+        } else {
+          b.className = 'ok';
+          b.textContent = '语法 OK，加载执行无报错';
+        }
+        tr.appendChild(a);
+        tr.appendChild(b);
+        rows.appendChild(tr);
+      });
+      current = null;
+    }
+
+    function loadNext(i) {
+      if (i >= FILES.length) {
+        finish();
+        return;
+      }
+      current = { file: FILES[i], bad: false, message: '', line: '', notes: [] };
+      var rec = current;
+      var done = function () {
+        results.push(rec);
+        current = null;
+        loadNext(i + 1);
+      };
+      var s = document.createElement('script');
+      s.src = FILES[i];
+      s.onload = done;
+      s.onerror = function () {
+        if (!rec.bad) {
+          rec.bad = true;
+          rec.message = '无法加载（路径错误或文件缺失）';
+        }
+        done();
+      };
+      document.head.appendChild(s);
+    }
+
+    loadNext(0);
+  </script>
+</body>
+</html>

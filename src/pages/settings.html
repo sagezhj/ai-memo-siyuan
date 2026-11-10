@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>AI Memo → SiYuan 设置</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <header class="bar">
+    <h1>AI Memo → SiYuan</h1>
+    <div class="bar-right">
+      <span id="badge-summary" class="muted">读取中…</span>
+      <a class="link" href="selftest.html" target="_blank">逻辑自检</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. 思源连接 -->
+    <section>
+      <h2>1. 思源笔记连接</h2>
+      <p class="hint">在思源「设置 → API」里开启 API 服务，把端口和认证码填进来。默认地址 <code>http://127.0.0.1:6806</code>。</p>
+      <div class="grid">
+        <label>API 地址
+          <input id="sy-base" type="text" placeholder="http://127.0.0.1:6806" spellcheck="false">
+        </label>
+        <label>认证码 Token
+          <input id="sy-token" type="password" placeholder="留空表示思源未开启鉴权" spellcheck="false">
+        </label>
+        <label>笔记本
+          <select id="sy-notebook"><option value="">未加载</option></select>
+        </label>
+        <label>根目录 hpath
+          <input id="sy-root" type="text" placeholder="/AI对话" spellcheck="false">
+        </label>
+        <label>子目录模板
+          <input id="sy-folder" type="text" placeholder="{yyyy-MM}/{platform}" spellcheck="false">
+        </label>
+        <label>标题前缀
+          <input id="sy-prefix" type="text" placeholder="可留空" spellcheck="false">
+        </label>
+      </div>
+      <div class="row">
+        <label class="check"><input id="sy-inc-url" type="checkbox"> 文档头写入原对话链接</label>
+        <label class="check"><input id="sy-inc-time" type="checkbox"> 文档头写入同步时间</label>
+        <label class="check"><input id="sy-inc-model" type="checkbox"> 文档头写入模型名</label>
+      </div>
+      <p class="hint">文档头（标题下那段元信息）只在<strong>首次创建</strong>该对话文档时写入；之后增量同步只更新正文与文档标题。想让新设置生效，可在「本地记录」里删除该记录后重扫，或整篇重建。</p>
+      <div class="row">
+        <button id="btn-test" class="primary">测试连接并加载笔记本</button>
+        <button id="btn-save-sy">保存连接设置</button>
+        <span id="test-out" class="mono muted"></span>
+      </div>
+    </section>
+
+    <!-- 2. 抓取行为 -->
+    <section>
+      <h2>2. 抓取与同步</h2>
+      <div class="row">
+        <label class="check"><input id="opt-enabled" type="checkbox"> 总开关</label>
+        <label class="check"><input id="opt-autosync" type="checkbox"> 自动写入思源</label>
+        <label class="check"><input id="opt-bubble" type="checkbox"> 页面显示悬浮入口（气泡 + 会话面板）</label>
+        <label class="check"><input id="opt-debug" type="checkbox"> 记录调试日志</label>
+      </div>
+      <div class="row">
+        <span class="label">平台：</span>
+        <label class="check"><input class="plat" type="checkbox" data-plat="deepseek"> DeepSeek</label>
+        <label class="check"><input class="plat" type="checkbox" data-plat="qwen"> 千问</label>
+        <label class="check"><input class="plat" type="checkbox" data-plat="yuanbao"> 元宝</label>
+        <label class="check"><input class="plat" type="checkbox" data-plat="generic"> 通用兜底</label>
+        <label>单文档最多消息数
+          <input id="opt-max" type="number" min="10" max="5000" step="10" class="num">
+        </label>
+        <label>会话面板样式
+          <select id="opt-panel-layout">
+            <option value="float">悬浮窗（可拖动）</option>
+            <option value="side">侧边栏（贴右全高）</option>
+          </select>
+        </label>
+      </div>
+      <p class="hint">在对话页点击右下角气泡即可展开会话面板，查看已捕获的全部对话与同步状态；面板右上角也能随时切换悬浮窗 / 侧边栏。</p>
+      <div class="row">
+        <button id="btn-save-opt" class="primary">保存抓取设置</button>
+      </div>
+    </section>
+
+    <!-- 3. 诊断 -->
+    <section>
+      <h2>3. 页面诊断（选择器校准）</h2>
+      <p class="hint">AI 网站改版导致抓不到内容时：切到那个对话页，点下面的按钮。这里会列出页面里重复结构的候选选择器，把它填进覆盖配置即可，不必改代码。</p>
+      <div class="row">
+        <button id="btn-diagnose">分析当前活动标签页</button>
+        <span id="diag-out" class="muted"></span>
+      </div>
+      <pre id="diag-result" class="mono box"></pre>
+      <div class="grid">
+        <label>选择器覆盖（JSON，按平台 id 分组）
+          <textarea id="sel-override" rows="10" spellcheck="false" placeholder='{ "deepseek": { "contentAnchorSelectors": [".ds-markdown" ] } }'></textarea>
+        </label>
+      </div>
+      <div class="row">
+        <button id="btn-save-sel">保存覆盖配置</button>
+        <span id="sel-out" class="muted"></span>
+      </div>
+    </section>
+
+    <!-- 4. 队列与记录 -->
+    <section>
+      <h2>4. 同步状态</h2>
+      <div class="row">
+        <button id="btn-flush" class="primary">立即重试待同步</button>
+        <button id="btn-clear-queue">清空队列</button>
+        <button id="btn-reload-records">刷新列表</button>
+        <span id="queue-out" class="muted"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table id="records">
+          <thead>
+            <tr>
+              <th>平台</th><th>标题</th><th>状态</th><th>消息</th><th>最后同步</th><th>文档</th><th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <details>
+        <summary>最近日志</summary>
+        <pre id="log-out" class="mono box"></pre>
+      </details>
+    </section>
+
+    <section class="notice">
+      <h2>隐私与边界</h2>
+      <ul>
+        <li>对话正文与 Token 只存 <code>chrome.storage.local</code>，不进浏览器账号同步，不上传任何服务端。</li>
+        <li>已同步成功后本地不保留正文，只保留角色与内容指纹；待同步项才临时保留正文快照用于重试。</li>
+        <li>「删除记录」只解除本地映射，不会删除思源里已生成的文档。</li>
+        <li>「重新编辑/重新生成」的消息按块更新；中段插入等结构性变化会整篇重建正文块。</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="/src/shared/constants.js"></script>
+  <script src="/src/shared/hash.js"></script>
+  <script src="/src/shared/util.js"></script>
+  <script src="/src/shared/rpc.js"></script>
+  <script src="/src/background/siyuan.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

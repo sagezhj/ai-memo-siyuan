@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Memo → SiYuan 隐私政策 / Privacy Policy</title>
+<style>
+  body{max-width:760px;margin:40px auto;padding:0 20px;font:15px/1.8 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1f2937}
+  h1{font-size:24px} h2{font-size:18px;margin-top:32px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}
+  .meta{color:#6b7280;font-size:13px}
+  .todo{background:#fef3c7;border:1px solid #f59e0b;border-radius:6px;padding:8px 12px}
+  hr{margin:48px 0;border:none;border-top:2px solid #e5e7eb}
+  code{background:#f3f4f6;padding:1px 5px;border-radius:4px;font-size:13px}
+</style>
+</head>
+<body>
+
+<h1>AI Memo → SiYuan 隐私政策</h1>
+<p class="meta">生效日期：2026-11-10 ｜ 适用对象：浏览器扩展「AI Memo → SiYuan」</p>
+
+<h2>1. 我们处理哪些数据</h2>
+<p>本扩展的唯一用途，是把你在千问 / DeepSeek / 元宝网页里的 AI 对话自动归档到你自己的思源笔记。为此它会处理：</p>
+<ul>
+  <li>受支持页面上的对话内容（消息文本、角色、标题、页面 URL）；</li>
+  <li>你主动填写的思源连接设置（API 地址、认证码、目标笔记本与路径偏好）。</li>
+</ul>
+<p>本扩展不收集 browsing history 之外的任何浏览行为数据，不使用 Cookie 追踪，不接入任何统计、分析或广告服务。</p>
+
+<h2>2. 数据流向哪里</h2>
+<ul>
+  <li><strong>浏览器本地存储</strong>（<code>chrome.storage.local</code>）：设置、对话与思源文档的映射（仅角色与内容指纹，不含正文）、未同步完成时的临时正文快照。认证码不参与浏览器账号的跨设备同步。</li>
+  <li><strong>你自己配置的思源内核</strong>：对话正文只发送到你填写的思源 API 地址（默认 <code>http://127.0.0.1:6806</code>，即本机）。如果你填写的是局域网或远程地址，数据只发往该地址，由你完全掌控。</li>
+</ul>
+<p><strong>没有任何数据发送给扩展作者或任何第三方服务器。</strong>扩展不包含远程代码，全部脚本随安装包分发。</p>
+
+<h2>3. 数据保留与删除</h2>
+<ul>
+  <li>同步成功后，本地临时正文快照即被清除，只保留角色与哈希指纹用于增量比对。</li>
+  <li>你可以随时在设置页删除任意本地记录；「删除记录」只解除本地映射，不会删除思源里已生成的文档（文档由你在思源中自行管理）。</li>
+  <li>卸载扩展会清除其全部本地存储。</li>
+</ul>
+
+<h2>4. 权限使用说明</h2>
+<ul>
+  <li><code>storage</code>：保存设置与同步映射；<code>alarms</code>：定时巡检重试队列；<code>tabs</code>：向对话页推送同步状态、诊断当前页面。</li>
+  <li>对三个 AI 平台域名的访问权限：注入内容脚本以读取对话。</li>
+  <li>对本机回环地址的访问权限及可选的主机授权：连接你配置的思源内核。</li>
+</ul>
+
+<h2>5. 其他</h2>
+<p>本扩展不面向儿童。政策更新会随扩展版本发布。使用本扩展即表示你同意上述数据处理方式。</p>
+<p>联系方式：<a href="https://github.com/sagezhj/ai-memo-siyuan/issues">GitHub Issues</a> ｜ <a href="mailto:sagezhj@live.com">sagezhj@live.com</a></p>
+
+<hr>
+
+<h1>AI Memo → SiYuan Privacy Policy</h1>
+<p class="meta">Effective date: 2026-11-10 ｜ Applies to the browser extension "AI Memo → SiYuan"</p>
+
+<h2>1. What data the extension processes</h2>
+<p>The extension's single purpose is to automatically archive your AI conversations from Qwen / DeepSeek / Yuanbao web pages into your own SiYuan note. To do so it processes:</p>
+<ul>
+  <li>conversation content on supported pages (message text, roles, titles, page URLs);</li>
+  <li>the SiYuan connection settings you enter (API address, API token, target notebook and path preferences).</li>
+</ul>
+<p>The extension does not track your browsing behavior, does not use tracking cookies, and includes no analytics, advertising, or telemetry of any kind.</p>
+
+<h2>2. Where data goes</h2>
+<ul>
+  <li><strong>Browser local storage</strong> (<code>chrome.storage.local</code>): settings, conversation-to-document mappings (roles and content hashes only, no message bodies), and temporary content snapshots kept only until sync succeeds. The API token is never included in browser-account sync.</li>
+  <li><strong>The SiYuan kernel you configure</strong>: conversation content is sent only to the SiYuan API address you enter (default <code>http://127.0.0.1:6806</code>, i.e. your own machine). If you enter a LAN or remote address, data goes only to that address, fully under your control.</li>
+</ul>
+<p><strong>No data is ever sent to the extension author or any third-party server.</strong> The extension contains no remote code; all scripts ship inside the installation package.</p>
+
+<h2>3. Retention and deletion</h2>
+<ul>
+  <li>Temporary content snapshots are cleared as soon as sync succeeds; only roles and hashes remain for incremental comparison.</li>
+  <li>You can delete any local record in the settings page at any time. Deleting a record only removes the local mapping — it does not delete the document already created in SiYuan, which you manage yourself.</li>
+  <li>Uninstalling the extension clears all of its local storage.</li>
+</ul>
+
+<h2>4. Permission usage</h2>
+<ul>
+  <li><code>storage</code>: persist settings and sync mappings; <code>alarms</code>: periodically sweep the retry queue; <code>tabs</code>: push sync status to conversation pages and diagnose the active tab.</li>
+  <li>Host access to the three AI platform domains: inject content scripts to read conversations.</li>
+  <li>Loopback host access and optional host grants: connect to the SiYuan kernel you configure.</li>
+</ul>
+
+<h2>5. Miscellaneous</h2>
+<p>The extension is not directed at children. Policy updates ship with extension releases. By using the extension you agree to the data practices described above.</p>
+<p>Contact: <a href="https://github.com/sagezhj/ai-memo-siyuan/issues">GitHub Issues</a> | <a href="mailto:sagezhj@live.com">sagezhj@live.com</a></p>
+
+</body>
+</html>

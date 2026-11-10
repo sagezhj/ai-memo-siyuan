@@ -1,0 +1,99 @@
+{
+  "manifest_version": 3,
+  "name": "AI Memo → SiYuan",
+  "short_name": "AI Memo SiYuan",
+  "version": "0.1.0",
+  "description": "自动静默保存千问 / DeepSeek / 元宝的 AI 对话，并增量写入思源笔记。数据先落本地，再同步到本机思源内核。",
+
+  "background": {
+    "service_worker": "src/background/index.js"
+  },
+
+  "action": {
+    "default_title": "AI Memo → SiYuan（点击打开设置）",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+
+  "options_ui": {
+    "page": "src/pages/settings.html",
+    "open_in_tab": true
+  },
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "permissions": ["storage", "alarms", "tabs"],
+
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+
+  "host_permissions": [
+    "*://chat.deepseek.com/*",
+    "*://www.qianwen.com/*",
+    "*://qianwen.com/*",
+    "*://tongyi.com/*",
+    "*://www.tongyi.com/*",
+    "*://tongyi.ai/*",
+    "*://www.tongyi.ai/*",
+    "*://chat.qwen.ai/*",
+    "*://yuanbao.tencent.com/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*",
+    "http://[::1]/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://chat.deepseek.com/*",
+        "*://www.qianwen.com/*",
+        "*://qianwen.com/*",
+        "*://tongyi.com/*",
+        "*://www.tongyi.com/*",
+        "*://tongyi.ai/*",
+        "*://www.tongyi.ai/*",
+        "*://chat.qwen.ai/*",
+        "*://yuanbao.tencent.com/*"
+      ],
+      "js": [
+        "src/shared/constants.js",
+        "src/shared/util.js",
+        "src/shared/hash.js",
+        "src/shared/dom.js",
+        "src/shared/markdown.js",
+        "src/shared/rpc.js",
+        "src/content/adapters/registry.js",
+        "src/content/adapters/deepseek.js",
+        "src/content/adapters/qwen.js",
+        "src/content/adapters/yuanbao.js",
+        "src/content/adapters/generic.js",
+        "src/content/diagnose.js",
+        "src/content/bubble.js",
+        "src/content/observer.js",
+        "src/content/main.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["src/pages/selftest.html"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+
+  "minimum_chrome_version": "114"
+}

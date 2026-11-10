@@ -1,0 +1,15 @@
+AI Memo → SiYuan automatically archives your AI web conversations into your own SiYuan note. Chat normally on Qwen, DeepSeek, or Yuanbao; the extension silently captures the conversation and writes it into SiYuan message by message, one document per conversation.
+
+Key features
+- Fully automatic, silent capture: no manual clipping. Content is committed after the page goes quiet, without interrupting streaming output.
+- True incremental sync: new messages are appended as individual blocks; regenerated or edited messages update only their own blocks; unchanged content triggers zero requests. Your documents are never wholesale overwritten.
+- Conversation panel: a floating entry at the corner of the page expands into a searchable conversation list, available as a draggable floating window or a full-height sidebar. Pause individual conversations, retry failed syncs, and jump to the SiYuan document in one click.
+- Reliable retry queue: if SiYuan is not running or the network is unreachable, conversations enter a backoff queue and resume from the breakpoint once the connection recovers — no data loss, no duplicate blocks.
+- Local-first privacy: conversation content and the API token only ever pass through your browser's local storage and the SiYuan kernel you configure. Nothing is sent to any third-party server. No analytics, no ads.
+- Selector overrides and page diagnostics: if a site redesign breaks extraction, diagnose the page and override selectors in the settings page — no code changes needed.
+
+Requirements
+- SiYuan desktop running on your machine or LAN, with its API service enabled.
+- One-time setup: enter the SiYuan address and API token in the extension settings page and pick a target notebook.
+
+For anyone who wants to turn AI conversations into a personal knowledge base managed in SiYuan.

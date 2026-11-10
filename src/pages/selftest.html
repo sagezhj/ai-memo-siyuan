@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>AI Memo 逻辑自检</title>
+  <style>
+    body { font: 14px/1.6 ui-monospace, Consolas, monospace; margin: 24px; color: #0f172a; }
+    h1 { font-size: 16px; }
+    .suite { margin: 18px 0 6px; font-weight: 700; }
+    .pass { color: #15803d; }
+    .fail { color: #b91c1c; }
+    .detail { white-space: pre-wrap; margin: 2px 0 0 18px; color: #64748b; font-size: 12px; }
+    #sum { position: sticky; top: 0; background: #f8fafc; padding: 8px; border: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <h1>逻辑自检（在浏览器里直接跑真实代码路径）</h1>
+  <div id="sum">运行中…</div>
+  <div id="out"></div>
+
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/hash.js"></script>
+  <script src="../shared/util.js"></script>
+  <script src="../shared/dom.js"></script>
+  <script src="../shared/markdown.js"></script>
+  <script src="../background/siyuan.js"></script>
+  <script src="../content/adapters/registry.js"></script>
+  <script src="../content/adapters/deepseek.js"></script>
+  <script src="../content/adapters/qwen.js"></script>
+  <script src="../content/adapters/yuanbao.js"></script>
+  <script src="../content/adapters/generic.js"></script>
+  <script src="../content/bubble.js"></script>
+  <script src="selftest.js"></script>
+</body>
+</html>
