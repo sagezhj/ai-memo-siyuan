@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "AI Memo → SiYuan",
+    "description": "扩展名称，显示在商店与工具栏。"
+  },
+  "extDescription": {
+    "message": "自动静默保存千问 / DeepSeek / 元宝的 AI 对话，并增量写入思源笔记。数据先落本地，再同步到本机思源内核。",
+    "description": "商店列表的简短描述。"
+  }
+}

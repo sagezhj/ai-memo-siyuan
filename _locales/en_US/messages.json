@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "AI Memo → SiYuan",
+    "description": "Extension name shown in the store and toolbar."
+  },
+  "extDescription": {
+    "message": "Silently saves Qwen / DeepSeek / Yuanbao AI chats and incrementally writes them into your own SiYuan note.",
+    "description": "Short description shown in the store listing."
+  }
+}

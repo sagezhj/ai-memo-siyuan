@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "AI Memo → SiYuan",
+  "default_locale": "zh_CN",
+  "name": "__MSG_extName__",
   "short_name": "AI Memo SiYuan",
   "version": "0.1.0",
-  "description": "自动静默保存千问 / DeepSeek / 元宝的 AI 对话，并增量写入思源笔记。数据先落本地，再同步到本机思源内核。",
+  "description": "__MSG_extDescription__",
 
   "background": {
     "service_worker": "src/background/index.js"
